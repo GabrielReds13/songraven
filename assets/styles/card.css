@@ -24,7 +24,7 @@
   width: 20vw;
   height: 20vw;
 
-  background-color: blue;
+  background-color: var(--bg-color);
 }
 
 .-song-info {

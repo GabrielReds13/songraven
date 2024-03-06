@@ -41,7 +41,7 @@
       <!-- Bar -->
       <li class="-song-progress-bar">
         <div id="song-bar-duration">
-          <div id="song-bar-current"></div>
+          <div id="song-bar-current" ref="progress_bar"></div>
         </div>
       </li>
 
@@ -64,6 +64,21 @@
 </template>
 
 <script lang="js" setup>
+  import { ref } from 'vue';
+
+  const progress_bar = ref(null);
+  onMounted(() => {
+    progress_bar.value.style.width = "75%";
+  })
+
+  let i = 0;
+  function timer() {
+    setTimeout(() => {
+      i++;
+      console.log(i)
+      timer();
+    }, 1000);
+  }
 
 </script>
 
