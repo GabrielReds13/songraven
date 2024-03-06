@@ -15,6 +15,7 @@
 
       <img src="@/assets/icons/like/Icon-Like-Off.svg" alt="Curtir" class="-data-like">
     </div>
+
     <!-- Player -->
     <ul class="-player-menu -row-list">
       <li>
@@ -50,12 +51,12 @@
         <ul class="-cronometer -row-list">
           <!-- Current moment -->
           <li class="-crono-time-current">
-            <p><span>00</span>:<span>00</span></p>
+            <p><span>{{ minute_current }}</span>:<span>{{ second_current }}</span></p>
           </li>
 
           <!-- Duration -->
           <li class="-crono-time-duration">
-            <p><span>00</span>:<span>00</span></p>
+            <p><span>{{ minute_song }}</span>:<span>{{ second_song }}</span></p>
           </li>
         </ul>
       </li>
@@ -64,22 +65,42 @@
 </template>
 
 <script lang="js" setup>
+  // -- Import -- 
   import { ref } from 'vue';
 
+  // -- Progress Bar --
   const progress_bar = ref(null);
-  onMounted(() => {
-    progress_bar.value.style.width = "75%";
-  })
 
-  let i = 0;
+  let minute_song = 4, second_song = 24;
+  let minute_current = 0, second_current = 0;
+
+  let music_duration_sec = ((minute_song * 60) + second_song), music_current_sec = 0, music_i = 100 / music_duration_sec;
+
+  console.log(music_duration_sec)
+
   function timer() {
     setTimeout(() => {
-      i++;
-      console.log(i)
+      
+      // Format time
+      if(second_current >= 59) {
+        second_current = 0;
+        minute_current ++;
+      }
+      else second_current++;
+
+      // Format progress
+      if (music_current_sec >= (music_i * music_duration_sec)) {return;}
+      else music_current_sec += music_i;
+
+      progress_bar.value.style.width = `${music_current_sec}%`;
+      
+
+      // Timer
       timer();
     }, 1000);
   }
 
+  timer();
 </script>
 
 <style>
