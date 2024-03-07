@@ -51,12 +51,12 @@
         <ul class="-cronometer -row-list">
           <!-- Current moment -->
           <li class="-crono-time-current">
-            <p><span>{{ minute_current }}</span>:<span>{{ second_current }}</span></p>
+            <p ref="timer_song_current">00:00</p>
           </li>
 
           <!-- Duration -->
           <li class="-crono-time-duration">
-            <p><span>{{ minute_song }}</span>:<span>{{ second_song }}</span></p>
+            <p ref="timer_song_duration">00:00</p>
           </li>
         </ul>
       </li>
@@ -70,6 +70,8 @@
 
   // -- Progress Bar --
   const progress_bar = ref(null);
+  const timer_song_current = ref(null);
+  const timer_song_duration = ref(null);
 
   let minute_song = 4, second_song = 24;
   let minute_current = 0, second_current = 0;
@@ -94,6 +96,9 @@
 
       progress_bar.value.style.width = `${music_current_sec}%`;
       
+      // sfsdfsf
+      timer_song_current.value.innerHTML = `${minute_current}:${second_current}`;
+      timer_song_duration.value.innerHTML = `${minute_song}:${second_song}`;
 
       // Timer
       timer();
