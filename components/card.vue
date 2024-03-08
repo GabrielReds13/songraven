@@ -68,38 +68,43 @@
   // -- Import -- 
   import { ref } from 'vue';
 
-  // -- Progress Bar --
+  // -- Components --
   const progress_bar = ref(null);
   const timer_song_current = ref(null);
   const timer_song_duration = ref(null);
 
+  // -- Variables --
   let minute_song = 4, second_song = 24;
   let minute_current = 0, second_current = 0;
 
   let music_duration_sec = ((minute_song * 60) + second_song), music_current_sec = 0, music_i = 100 / music_duration_sec;
 
-  console.log(music_duration_sec)
+  // Set song properties
+  onMounted(() => {
+    timer_song_current.value.innerHTML = `${(minute_current < 10 ? `0${minute_current}` : `${minute_current}`)}:${(second_current < 10 ? `0${second_current}` : `${second_current}`)}`;
+    timer_song_duration.value.innerHTML = `${(minute_song < 10 ? `0${minute_song}` : `${minute_song}`)}:${(second_song < 10 ? `0${second_song}` : `${second_song}`)}`;
+  })
 
+  // -- Timer Func --
   function timer() {
     setTimeout(() => {
-      
-      // Format time
+      // Timer current
       if(second_current >= 59) {
         second_current = 0;
         minute_current ++;
       }
       else second_current++;
-
-      // Format progress
+      
+      // Progress bar
       if (music_current_sec >= (music_i * music_duration_sec)) {return;}
       else music_current_sec += music_i;
-
+      
       progress_bar.value.style.width = `${music_current_sec}%`;
       
-      // sfsdfsf
-      timer_song_current.value.innerHTML = `${minute_current}:${second_current}`;
-      timer_song_duration.value.innerHTML = `${minute_song}:${second_song}`;
-
+      // Cronometer text
+      timer_song_current.value.innerHTML = `${(minute_current < 10 ? `0${minute_current}` : `${minute_current}`)}:${(second_current < 10 ? `0${second_current}` : `${second_current}`)}`;
+      timer_song_duration.value.innerHTML = `${(minute_song < 10 ? `0${minute_song}` : `${minute_song}`)}:${(second_song < 10 ? `0${second_song}` : `${second_song}`)}`;
+      
       // Timer
       timer();
     }, 1000);
@@ -110,5 +115,5 @@
 
 <style>
   /* -- Import -- */
-  @import url("~/assets/styles/card.css");
+  @import url("~/assets/styles/card/card.css");
 </style>

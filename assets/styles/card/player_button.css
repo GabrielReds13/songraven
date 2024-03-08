@@ -1,0 +1,33 @@
+/* -- Card-Player -- */
+.-player-menu {
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .-song-button {
+    display: flex;
+  
+    align-items: center;
+    justify-content: center;
+  
+    width: 75px;
+    height: 75px;
+  
+    border-radius: 100%;
+    background-color: white;
+  }
+  .-previous-song, .-later-song {
+    background-color: transparent;
+  }
+  
+  .-previous-song {
+    rotate: 180deg;
+  }
+  
+  #song-bar-current {
+    width: 0%;
+    height: 100%;
+  
+    background-color: var(--bar-color);
+    border-radius: 100vw;
+  }

@@ -1,4 +1,8 @@
-/* -- Presets -- */
+/* -- Import -- */
+@import url("~/assets/styles/card/progress_bar.css");
+@import url("~/assets/styles/card/player_button.css");
+
+/* -- Card -- */
 .-card {
   display: flex;
   justify-content: space-between;
@@ -50,59 +54,6 @@
   
   width: 8%;
   height: 40%;
-}
-
-/* -- Card-Player -- */
-.-player-menu {
-  justify-content: space-between;
-  width: 100%;
-}
-
-.-song-button {
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  width: 75px;
-  height: 75px;
-
-  border-radius: 100%;
-  background-color: white;
-}
-.-previous-song, .-later-song {
-  background-color: transparent;
-}
-
-.-previous-song {
-  rotate: 180deg;
-}
-
-/* -- Song-Bar -- */
-.-info-song-duration {
-  margin-top: 5%;
-  width: 100%;
-}
-.-song-progress-bar, #song-bar-duration {
-  display: flex;
-
-  width: 100%;
-  height: 1vh;
-
-  border-style: none;
-  border-radius: 100vw;
-}
-
-#song-bar-duration {
-  background-color: var(--bar-bg-color);
-}
-
-#song-bar-current {
-  width: 0%;
-  height: 100%;
-
-  background-color: var(--bar-color);
-  border-radius: 100vw;
 }
 
 /* -- Cronometer -- */
