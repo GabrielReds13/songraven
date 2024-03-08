@@ -20,19 +20,19 @@
     <ul class="-player-menu -row-list">
       <li>
         <div class="-song-button -previous-song">
-          <img src="@/assets/icons/player-song/Icon-Skip.svg" alt="Anterior">
+          <img src="~/assets/icons/player-song/Icon-Skip.svg" alt="Anterior">
         </div>
       </li>
 
       <li>
-        <div class="-song-button -play-pause">
-          <img src="@/assets/icons/player-song/Icon-Player.svg" alt="Player">
+        <div class="-song-button -play-pause" ref="play_pause">
+          <img src="~/assets/icons/player-song/Icon-Player.svg" alt="Player">
         </div>
       </li>
 
       <li>
         <div class="-song-button -later-song">
-          <img src="@/assets/icons/player-song/Icon-Skip.svg" alt="Anterior">
+          <img src="~/assets/icons/player-song/Icon-Skip.svg" alt="Anterior">
         </div>
       </li>
     </ul>
@@ -68,16 +68,19 @@
   // -- Import -- 
   import { ref } from 'vue';
 
+  // -- Song cronometer and progress --
   // -- Components --
   const progress_bar = ref(null);
   const timer_song_current = ref(null);
   const timer_song_duration = ref(null);
 
   // -- Variables --
-  let minute_song = 4, second_song = 24;
-  let minute_current = 0, second_current = 0;
+  let minute_song = 4;
+  let second_song = 0;
+  let duration_in_sec = ((minute_song * 60) + second_song);
 
-  let music_duration_sec = ((minute_song * 60) + second_song), music_current_sec = 0, music_i = 100 / music_duration_sec;
+  let minute_current = 0, second_current = 0;
+  let music_current_sec = 0, music_i = 100 / duration_in_sec;
 
   // Set song properties
   onMounted(() => {
@@ -96,21 +99,25 @@
       else second_current++;
       
       // Progress bar
-      if (music_current_sec >= (music_i * music_duration_sec)) {return;}
+      if (music_current_sec >= (music_i * duration_in_sec)) {return;}
       else music_current_sec += music_i;
       
       progress_bar.value.style.width = `${music_current_sec}%`;
       
       // Cronometer text
       timer_song_current.value.innerHTML = `${(minute_current < 10 ? `0${minute_current}` : `${minute_current}`)}:${(second_current < 10 ? `0${second_current}` : `${second_current}`)}`;
-      timer_song_duration.value.innerHTML = `${(minute_song < 10 ? `0${minute_song}` : `${minute_song}`)}:${(second_song < 10 ? `0${second_song}` : `${second_song}`)}`;
-      
+    
       // Timer
       timer();
     }, 1000);
   }
 
   timer();
+
+  
+  // --- Play and pause ---
+  // -- Components --
+  const play_pause = ref(null);
 </script>
 
 <style>
