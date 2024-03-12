@@ -1,7 +1,7 @@
 <template>
   <div class="-card -border-custom">
     <!-- Data -->
-    <img ref="song_source" alt="" class="-song-image -border-custom">
+    <img @click="audioPlay" ref="song_source" alt="" class="-song-image -border-custom">
 
     <div class="-song-info">
       <ul class="-data-song -column-list">
@@ -69,6 +69,14 @@
 <script lang="js" setup>
   // -- Import -- 
   import { ref } from 'vue';
+
+  const audioPlay = () => {
+    if (process.client) {
+      const audio = new Audio("~/assets/sounds/song.mp3");
+      console.log(audio)
+      audio.play();
+    }
+  }
 
   // --- Sound Source ---
   
