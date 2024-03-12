@@ -1,7 +1,7 @@
 <template>
   <div class="-card -border-custom">
     <!-- Data -->
-    <img src="" alt="" class="-song-image -border-custom">
+    <img ref="song_source" alt="" class="-song-image -border-custom">
 
     <div class="-song-info">
       <ul class="-data-song -column-list">
@@ -25,14 +25,16 @@
       </li>
 
       <li>
-        <div class="-song-button -play-pause" ref="play_pause">
-          <img src="~/assets/icons/player-song/Icon-Player.svg" alt="Player">
+        <div class="-song-button -play-pause" v-on:click="Player_Manager()">
+          <img ref="p_pause_icon" src="~/assets/icons/player-song/Icon-Pause.svg" alt="Pause">
+          <img ref="p_play_icon" src="~/assets/icons/player-song/Icon-Player.svg" alt="Player">
         </div>
       </li>
 
       <li>
         <div class="-song-button -later-song">
           <img src="~/assets/icons/player-song/Icon-Skip.svg" alt="Anterior">
+          
         </div>
       </li>
     </ul>
@@ -68,6 +70,31 @@
   // -- Import -- 
   import { ref } from 'vue';
 
+  // --- Sound Source ---
+  
+  // --- Play and pause ---
+  // -- Components --
+  let play_pause = false;
+  const p_play_icon = ref(null);
+  const p_pause_icon = ref(null);
+
+  function Player_Manager() {
+    if(play_pause === false) {
+      p_pause_icon.value.style.display = "none";
+      p_play_icon.value.style.display = "flex";
+
+      play_pause = true;
+    }
+    else {
+      p_pause_icon.value.style.display = "flex";
+      p_play_icon.value.style.display = "none";
+
+      play_pause = false;
+    }
+
+    Timer();
+  }
+
   // -- Song cronometer and progress --
   // -- Components --
   const progress_bar = ref(null);
@@ -75,49 +102,50 @@
   const timer_song_duration = ref(null);
 
   // -- Variables --
-  let minute_song = 4;
-  let second_song = 0;
+  let minute_song = 0;
+  let second_song = 46;
   let duration_in_sec = ((minute_song * 60) + second_song);
 
   let minute_current = 0, second_current = 0;
   let music_current_sec = 0, music_i = 100 / duration_in_sec;
 
+  // -- Timer Func --
+  function Timer() {
+    setTimeout(() => {
+      // Timer current
+      if(play_pause === false) {
+        // Timer
+        if(second_current >= 59) {
+          second_current = 0;
+          minute_current ++;
+        }
+        else second_current++;
+        
+        // Progress bar
+        if (music_current_sec >= (music_i * duration_in_sec)) {return;}
+        else music_current_sec += music_i;
+        
+        progress_bar.value.style.width = `${music_current_sec}%`;
+        
+        // Cronometer text
+        timer_song_current.value.innerHTML = `${(minute_current < 10 ? `0${minute_current}` : `${minute_current}`)}:${(second_current < 10 ? `0${second_current}` : `${second_current}`)}`;
+        
+        // Timer
+        Timer();
+      }
+    }, 1000);
+  }
+
   // Set song properties
   onMounted(() => {
+    // Player manager
+    Player_Manager();
+
+    // Progress and cronometer
     timer_song_current.value.innerHTML = `${(minute_current < 10 ? `0${minute_current}` : `${minute_current}`)}:${(second_current < 10 ? `0${second_current}` : `${second_current}`)}`;
     timer_song_duration.value.innerHTML = `${(minute_song < 10 ? `0${minute_song}` : `${minute_song}`)}:${(second_song < 10 ? `0${second_song}` : `${second_song}`)}`;
   })
 
-  // -- Timer Func --
-  function timer() {
-    setTimeout(() => {
-      // Timer current
-      if(second_current >= 59) {
-        second_current = 0;
-        minute_current ++;
-      }
-      else second_current++;
-      
-      // Progress bar
-      if (music_current_sec >= (music_i * duration_in_sec)) {return;}
-      else music_current_sec += music_i;
-      
-      progress_bar.value.style.width = `${music_current_sec}%`;
-      
-      // Cronometer text
-      timer_song_current.value.innerHTML = `${(minute_current < 10 ? `0${minute_current}` : `${minute_current}`)}:${(second_current < 10 ? `0${second_current}` : `${second_current}`)}`;
-    
-      // Timer
-      timer();
-    }, 1000);
-  }
-
-  timer();
-
-  
-  // --- Play and pause ---
-  // -- Components --
-  const play_pause = ref(null);
 </script>
 
 <style>
