@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@vueuse/sound": "^2.0.1",
     "vue": "^3.4.19",
     "vue-router": "^4.3.0"
   },

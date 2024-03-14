@@ -69,10 +69,11 @@
 <script lang="js" setup>
   // -- Import -- 
   import { ref } from 'vue';
+  import soundSfx from '~/assets/sounds/song.mp3';
 
   const audioPlay = () => {
     if (process.client) {
-      const audio = new Audio("~/assets/sounds/song.mp3");
+      const audio = new Audio(soundSfx);
       console.log(audio)
       audio.play();
     }
