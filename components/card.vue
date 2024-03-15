@@ -78,25 +78,32 @@
   const p_play_icon = ref(null);
   const p_pause_icon = ref(null);
 
+  let isPaused;
   function playerClick() {
     // - Player state -
+    // Variables
     const playerState = songManager();
-
+    
     //  - Player style -
     // Paused
     if(playerState === true) {
       p_pause_icon.value.style.display = "none";
       p_play_icon.value.style.display = "flex";
-
-      return "paused";
+      
+      isPaused = "paused";
     }
     // Playing
     else {
       p_pause_icon.value.style.display = "flex";
       p_play_icon.value.style.display = "none";
       
-      return "playing";
+      isPaused = "playing";
     }
+    
+    // Timer
+    Timer();
+
+    return isPaused;
   }
 
   // -- Song cronometer and progress --
@@ -106,28 +113,41 @@
   const timer_song_duration = ref(null);
 
   // -- Variables --
-  let songDuration;
+  var songDuration = getSongDuration();
   let minute_song;
-  let second_song = 0;
+  let second_song;
 
   let minute_current = 0, second_current = 0;
-  let music_current_sec = 0, music_i = 100 / songDuration;
+  let music_current_sec = 0, music_interval = 0;
 
   if (process.client) {
-    songDuration = getSongDuration();
-    minute_song = songDuration / 60;
+    // Set duration
+    minute_song = songDuration.minutes;
+    second_song = songDuration.seconds;
+
+    // Set progress
+    music_interval = 100 / songDuration.durationInSec;
   }
 
 
   // -- Timer Func --
   function Timer() {
-    setTimeout(() => {
-      
-      // Timer
-      Timer();
-      
-    }, 1000);
+    // Paused
+    if (isPaused === "paused") {} 
+    // Playing
+    else if (isPaused === "playing") { 
+      setTimeout(() => {
+        second_current > 59 ? second_current = 0 : second_current += 1;
+        second_current > 59 ? minute_current += 1 : minute_current = minute_current;
+        
+        timer_song_current.value.innerHTML = `${(minute_current < 10 ? `0${minute_current}` : `${minute_current}`)}:${(second_current < 10 ? `0${second_current}` : `${second_current}`)}`;
+        
+        // Timer
+        Timer();
+      }, 1000);
+    }  
   }
+
 
   // Set song properties
   onMounted(() => {

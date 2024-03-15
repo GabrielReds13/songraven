@@ -19,12 +19,20 @@ export function getSongDuration() {
         setTimeout(() => {
             if(songProperties.source.duration == NaN) Timer();
         }, 1)
+        console.log(songProperties)
         return songProperties.source.duration;
     }
 
+    // Return duration
     if (process.client) {
         const getDuration = Timer();
-        return getDuration;
+        const setDuration = {
+            minutes: (getDuration / 60).toFixed(),
+            seconds: (getDuration % 60).toFixed(),
+            durationInSec: getDuration
+        }
+
+        return setDuration;
     } else return NaN;
 
 }
