@@ -15,13 +15,16 @@ export const songProperties = {
 
 // Song duration
 export function getSongDuration() {
-    async function Timer() {
-        await setTimeout(() => {
+    function Timer() {
+        setTimeout(() => {
             if(songProperties.source.duration == NaN) Timer();
         }, 1)
         return songProperties.source.duration;
     }
 
-    const getDuration = Timer();
-    return getDuration[2].[0];
+    if (process.client) {
+        const getDuration = Timer();
+        return getDuration;
+    } else return NaN;
+
 }

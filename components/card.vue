@@ -107,16 +107,17 @@
 
   // -- Variables --
   let songDuration;
-  let minute_song = songDuration / 60;
+  let minute_song;
   let second_song = 0;
-
-  if (process.client) {
-    songDuration = getSongDuration();
-    console.log(songDuration)
-  }
 
   let minute_current = 0, second_current = 0;
   let music_current_sec = 0, music_i = 100 / songDuration;
+
+  if (process.client) {
+    songDuration = getSongDuration();
+    minute_song = songDuration / 60;
+  }
+
 
   // -- Timer Func --
   function Timer() {
