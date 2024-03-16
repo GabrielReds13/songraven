@@ -15,24 +15,32 @@ export const songProperties = {
 
 // Song duration
 export function getSongDuration() {
-    function Timer() {
-        setTimeout(() => {
-            if(songProperties.source.duration == NaN) Timer();
-        }, 1)
-        console.log(songProperties)
-        return songProperties.source.duration;
+    // Verify number
+    function verifyNumber() {
+        let isNumber = false;
+
+        while(true) {
+            if (typeof songProperties.source.duration !== 'number') isNumber = false;
+            else {
+                isNumber = true;
+                break;
+            }
+        }
+
+        return isNumber;
     }
 
     // Return duration
-    if (process.client) {
-        const getDuration = Timer();
-        const setDuration = {
-            minutes: (getDuration / 60).toFixed(),
-            seconds: (getDuration % 60).toFixed(),
-            durationInSec: getDuration
-        }
-
-        return setDuration;
-    } else return NaN;
-
+    if(process.client) {
+        if (verifyNumber() === true) {
+            const getDuration = songProperties.source.duration;
+            const setDuration = {
+                minutes: (getDuration / 60).toFixed(),
+                seconds: (getDuration % 60).toFixed(),
+                durationInSec: getDuration
+            }
+            return setDuration;
+        } 
+        else return NaN;
+    }
 }
