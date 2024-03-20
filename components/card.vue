@@ -141,7 +141,6 @@
         timer_song_current.value.innerHTML = `${(minute_current < 10 ? `0${minute_current}` : `${minute_current}`)}:${(second_current < 10 ? `0${second_current}` : `${second_current}`)}`;
         
         // Timer
-        // Test
         Timer();
       }, 1000);
     }  
