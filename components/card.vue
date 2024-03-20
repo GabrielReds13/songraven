@@ -108,10 +108,9 @@
 
   // -- Song cronometer and progress --
   // -- Components --
-  const progress_bar = ref(null);
   const timer_song_current = ref(null);
   const timer_song_duration = ref(null);
-
+  
   // -- Variables --
   var songDuration = getSongDuration();
   let minute_song;
@@ -124,14 +123,13 @@
     // Set duration
     minute_song = songDuration.minutes;
     second_song = songDuration.seconds;
-
+    
     // Set progress
     music_interval = 100 / songDuration.durationInSec;
   }
 
-
   // -- Timer Func --
-  function Timer() {
+  function progressS() {
     // Paused
     if (isPaused === "paused") {} 
     // Playing
@@ -143,11 +141,14 @@
         timer_song_current.value.innerHTML = `${(minute_current < 10 ? `0${minute_current}` : `${minute_current}`)}:${(second_current < 10 ? `0${second_current}` : `${second_current}`)}`;
         
         // Timer
+        // Test
         Timer();
       }, 1000);
     }  
   }
 
+  // -- Progress Bar -- 
+  const progress_bar = ref(null);
 
   // Set song properties
   onMounted(() => {
